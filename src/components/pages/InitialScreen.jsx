@@ -148,14 +148,14 @@ function InitialScreen(props) {
                         >
                           Add {selectedItems.length === 0 ? "" : selectedItems.length} Products
                         </Button>
-                        <Button id="removeProd" variant="secondary"
+                        <Button id="removeProduct" variant="secondary"
                           onClick={() => setRemove(true)}
                         >
                           Remove  Products
                         </Button>
                       </div>
                       <div className='col-sm-4'>
-                        <Button id="removeCat" variant="secondary" style={{ margin: "5px" }}
+                        <Button id="removeCategory" variant="secondary" style={{ margin: "5px" }}
                           onClick={() => removeCategory()}
                         >
                           Remove Category
