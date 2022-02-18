@@ -7,16 +7,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Provider as ReduxProvider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'
 
 const queryClient = new QueryClient();
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+    {/* <ReduxProvider store={store}>
+      <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}> */}
       <QueryClientProvider client={queryClient}>
         <App />
         <ReactQueryDevtools />
       </QueryClientProvider>
+      {/* </PersistGate>
+    </ReduxProvider> */}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

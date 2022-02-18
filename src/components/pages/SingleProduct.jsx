@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { fetchSingleProduct } from "../api";
-import { ErrorComponent, LoadingComponent } from "./helperComponents";
+import { fetchSingleProduct } from "../../api"
+import { LoadingComponent } from "../helperComponents"
 
 const SingleProduct = (props) => {
   const { productId } = useParams();
-  const { isLoading, isError, error, data, isFetched, isFetching, ...query } =
+  const { isLoading, data, isFetched, isFetching, ...query } =
     useQuery(
       ["product", productId],
 
@@ -17,9 +17,7 @@ const SingleProduct = (props) => {
       }
     );
 
-  if (isError) {
-    return <ErrorComponent message={error.message} />;
-  }
+ 
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -29,8 +27,12 @@ const SingleProduct = (props) => {
     <>
       <h1>{data?.title}</h1>
       <img src={data?.image} alt="" style={{ width: "200px" }} />
-      <p></p>
-      <p>{data?.price}</p>
+      <div></div>
+      <div>
+        <h5>
+        $ {data?.price}
+        </h5>
+        </div>
     </>
   );
 };

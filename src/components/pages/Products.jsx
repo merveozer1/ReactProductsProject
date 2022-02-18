@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ErrorComponent, LoadingComponent } from "./helperComponents";
+import { LoadingComponent } from "./helperComponents";
 
 const Products = (props) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   /*
 
@@ -35,17 +34,13 @@ const Products = (props) => {
       })
       .catch((err) => {
         console.log(err.message);
-        setError(err.message);
+        
       });
   }, []);
 
   console.log("isLoading:::", isLoading);
   console.log("products:::", products);
-  console.log("error:::", error);
-
-  if (error) {
-    return <ErrorComponent message={error} />;
-  }
+ 
 
   if (isLoading) {
     return <LoadingComponent />;
