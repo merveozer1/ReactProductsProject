@@ -3,19 +3,18 @@
     color: #767676;
     border: none;
 }
-#addProduct{
-    background-color: #EEEEEE;
-    color: #767676;
-    border: none;
-    
-}
+
 #removeCategory{
     background-color: #EEEEEE;  
     color: #767676;
     border: none;
+    margin: 5px;
 }
 .review{
     text-align: start;
     
 }
-    
+
+#addProduct{
+    margin:5px
+}

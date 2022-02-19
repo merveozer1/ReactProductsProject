@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiCube } from 'react-icons/bi';
 import { FiSave } from 'react-icons/fi';
 import { BiCategoryAlt } from 'react-icons/bi';
@@ -11,90 +11,87 @@ import { fetchProducts } from "../../api";
 
 
 function InitialScreen(props) {
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [addNewCategory, setNewCategory] = useState([]);
-  const [isButtonClicked, setButtonClicked] = useState(false);
-  const [remove, setRemove] = useState(false);
+  const { isLoading, data = [], isFetched } = useQuery("products", fetchProducts, {
+    retry: false,
+    select: (data) => data.data,
+  });
+
+  const [appState, setAppState] = useState({ availableProducts: [], selectedItems: [], containers: [{ name: 1, unfavItems: [], favItems: [] }] });
+
+  useEffect(() => {
+    setAppState({ ...appState, availableProducts: [...data] })
+  }, [isFetched])
 
 
-  const [count, setCount] = useState(0)
-  const [state, setState] = useState(0)
-  const [finalProduct, setFinalProduct] = useState([])
-  const [containerCount, setContainerCount] = useState(1)
-  const [addCount, setAddCount] = useState(0)
-  const [removeCount, setRemoveCount] = useState(0)
-  const [selectedProduct, setSelectedProduct] = useState([])
-  const [categoryNumber, setCategoryNumber] = useState(1)
+  const removeProducts = (index) => {
+    const newState = { ...appState };
 
-
-  const { isLoading, data, isFetched, isFetching, ...query } =
-    useQuery("products", fetchProducts, {
-      retry: false,
-      select: (data) => data.data,
-    });
-  // console.log(data);
-  // console.log(query);
-
-  const addProducts = () => {
-    if(!isButtonClicked || !addNewCategory.length) return;
-
-    return (
-      <>
-        <div className="container" id="moveProduct" >
-          <ul data-role="listview" style={{ textAlign: "start" }}>
-            {addNewCategory.map((item) => (
-              <div className="DIV" id="mySelect">
-                <input type="checkbox" className={`form-check-input border border-black `}
-                  onClick={(e) => clickInputBox(e, item, true)}
-                  key={item.id} />
-                <Link style={{ paddingLeft: 13, textDecoration: "none ", color: "black" }}
-                  to={`/products/${item.id}`}>
-                  {item.title}
-                </Link>
-              </div>
-            )).slice(0, 10)}
-          </ul>
-        </div>
-      </>
-    )
+    const newFavItems = newState.containers[index].favItems.filter(item => !newState.containers[index].unfavItems.includes(item));
+    newState.containers[index].favItems = [...newFavItems];
+    newState.availableProducts = [...newState.availableProducts, ...newState.containers[index].unfavItems];
+    newState.containers[index].unfavItems = [];
+    setAppState(newState);
   }
 
-  const removeProducts = () => {
-    console.log('remove products')
+  const addProducts = (index) => {
+    const newState = { ...appState };
 
+    for (const product of appState.selectedItems) {
+      newState.containers[index].favItems.push(product);
+      newState.availableProducts = newState.availableProducts.filter(item => product.id !== item.id);
+    }
+
+    newState.selectedItems = [];
+
+    setAppState(newState);
   }
 
-  const clickInputBox = (e, item, fromBucket = false) => {
+
+  const onSelectedItemChange = (e, item) => {
     if (e.target.checked) {
-        const newSelectedItems = [...selectedItems];
-        newSelectedItems.push(item);
-        setSelectedItems(newSelectedItems);
-        setNewCategory(newSelectedItems);
-   
+      const newSelectedItems = [...appState.selectedItems, item];
+      setAppState({ ...appState, selectedItems: newSelectedItems });
     } else {
-     
-        const alreadySelectedItems = [...selectedItems];
-        const filteredItems = alreadySelectedItems.filter((el) => el.id !== item.id);
-        setSelectedItems(filteredItems);
-      }
+      const selectedItems = [...appState.selectedItems];
+      const filteredItems = selectedItems.filter((el) => el.id !== item.id);
+      setAppState({ ...appState, selectedItems: filteredItems });
+    }
+  }
 
+  const onFavItemChange = (e, item, index) => {
+    if (e.target.checked) {
+      const containers = [...appState.containers];
+      containers[index].unfavItems.push(item);
+      setAppState({ ...appState, containers });
+    } else {
+      const containers = [...appState.containers];
+      containers[index].unfavItems = containers[index].unfavItems.filter((el) => el.id !== item.id);
+      setAppState({ ...appState, containers });
+    }
   }
 
   const addCategory = () => {
-    console.log('add category')
+    const containers = [...appState.containers];
+    containers.push({ unfavItems: [], favItems: [], name: containers[containers.length - 1].name + 1 });
+    setAppState({ ...appState, containers });
   }
 
-  const removeCategory = () => {
-    console.log('remove category')
+  const removeCategory = (index) => {
+    if (appState.containers.length < 2) return;
 
+    const newState = { ...appState };
+
+    newState.availableProducts = [...newState.availableProducts, ...newState.containers[index].favItems];
+    newState.containers.splice(index, 1);
+
+    setAppState(newState);
   }
-
-
 
   if (isLoading) {
     return <LoadingComponent />;
   }
-  console.log(selectedItems)
+
+  console.log("appState", appState);
 
   return (
     <>
@@ -107,16 +104,17 @@ function InitialScreen(props) {
               </h5>
               <div className="card-text">
                 <ul id="available-products" data-role="listview" style={{ textAlign: "start" }}>
-                  {data?.filter((item) => !finalProduct?.includes(item.id)).map((item) => (
-                    <div id="mySelect" className="DIV">
+                  {appState.availableProducts.map((item) => (
+                    <div key={item.id} id="mySelect" className="selectProduct">
                       <input type="checkbox" className={`form-check-input border border-black `}
-                        onClick={(e) => clickInputBox(e, item)} />
+                        onChange={(e) => onSelectedItemChange(e, item)} />
                       <Link style={{ paddingLeft: 13, textDecoration: "none ", color: "black" }}
                         to={`/products/${item.id}`}>
                         {item.title}
                       </Link>
                     </div>
                   )).slice(0, 10)}
+
                 </ul>
               </div>
             </div>
@@ -124,39 +122,56 @@ function InitialScreen(props) {
         </div>
         <div className="col-sm-6 ">
           {
-            [...Array(containerCount)].map(item =>
+            appState.containers.map((container, index) =>
               <>
                 <div className="card border-3">
                   <div className="card-body">
                     <h5 className="card-title">
-                      <BiCategoryAlt /> Category {categoryNumber}
+                      <BiCategoryAlt /> Category {container.name}
                     </h5>
                     <div className='my-5'>
-                      <svg className={`${props.isFavorite === true ? 'heart' : ''}`} width={'20px'} height={'20px'} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                      <div className="card-text text-muted">Select products to add here.
+                      {container.favItems.length === 0 ?
+                        <div>
+                          <svg width={'20px'} height={'20px'} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                          <div className="card-text text-muted">Select products to add here.</div></div> : <div></div>}
+                      <div>
+                        <div className="container" id="moveProduct" >
+                          <ul data-role="listview" style={{ textAlign: "start" }}>
+                            {container.favItems.map((item) => (
+                              <div className="DIV" id="mySelect">
+                                <input type="checkbox" className={`form-check-input border border-black `}
+                                  onChange={(e) => onFavItemChange(e, item, index)}
+                                  key={item.id} />
+                                <Link style={{ paddingLeft: 13, textDecoration: "none ", color: "black" }}
+                                  to={`/products/${item.id}`}>
+                                  {item.title}
+                                </Link>
+                              </div>
+                            )).slice(0, 10)}
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                    {addProducts()}
                     <div className='row'>
                       <div className='col'>
-                        <Button id="addProduct" 
-                        variant="secondary" 
-                        style={{ margin: "5px" }}
-                        onClick={() => setButtonClicked(true)}
+                        <Button id="addProduct"
+                          variant={appState.selectedItems.length === 0 ? "secondary" : "primary"}
+                          onClick={() => addProducts(index)}
                         >
-                          Add {selectedItems.length === 0 ? "" : selectedItems.length} Products
+                          Add {appState.selectedItems.length === 0 ? "" : appState.selectedItems.length} Products
                         </Button>
                         <Button id="removeProduct" variant="secondary"
-                          onClick={() => setRemove(true)}
+                          onClick={() => removeProducts(index)}
                         >
-                          Remove  Products
+                          Remove {container.unfavItems.length === 0 ? "" : container.unfavItems.length} Products
                         </Button>
                       </div>
                       <div className='col-sm-4'>
-                        <Button id="removeCategory" variant="secondary" style={{ margin: "5px" }}
-                          onClick={() => removeCategory()}
+                        <Button id="removeCategory"
+                          variant="secondary"
+                          onClick={() => removeCategory(index)}
                         >
                           Remove Category
                         </Button>
@@ -164,7 +179,6 @@ function InitialScreen(props) {
                     </div>
                   </div>
                 </div>
-
               </>
             )}
           <Button
@@ -178,20 +192,21 @@ function InitialScreen(props) {
             Add Category
           </Button>
         </div>
-        <div className="col-sm-6 my-3">
-          <div className="card border border-primary">
-            <div className="card-body">
-              <div className='review'>
-                <h5 className="card-title" style={{ color: "#074EE8" }}>
-                  <FiSave /> Review
+      </div>
+      <div className="col-sm-6 my-3">
+        <div className="card border border-primary">
+          <div className="card-body">
+            <div className='review'>
+              <h5 className="card-title" style={{ color: "#074EE8" }}>
+                <FiSave /> Review
+              </h5>
+              <div className="card-text" >
+                <h5>
+                  <b>Available Products:</b>
                 </h5>
-                <div className="card-text" >
-                  <h5><b>Available Products:
-                    {data?.length - selectedProduct?.length}</b></h5>
-                  <small>Categories: {categoryNumber} </small>
-                  <br />
-                  <small>Category {categoryNumber} : {addCount}  products</small>
-                </div>
+                <small>Categories: { } </small>
+                <br />
+                <small>Category { } : { }  products</small>
               </div>
             </div>
           </div>
@@ -202,3 +217,5 @@ function InitialScreen(props) {
 }
 
 export default InitialScreen;
+
+
