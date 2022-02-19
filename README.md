@@ -1,5 +1,7 @@
 
  <a className='text-warning' href="https://fakestoreapi.com/">Click</a> to access the API used in the project.
+ <p>
+ <a className='text-warning' href="https://unruffled-mahavira-d62e88.netlify.app/">Click</a> for the deployed project.
 
   <b>Tools and Technologies:</b>
   <ul>
