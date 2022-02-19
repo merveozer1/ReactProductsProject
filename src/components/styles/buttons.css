@@ -1,20 +1,23 @@
 #removeProduct {
-    background-color: #EEEEEE;
-    color: #767676;
-    border: none;
+    margin:5px;
+} 
+
+#addProduct{
+    margin:5px; 
 }
 
 #removeCategory{
-    background-color: #EEEEEE;  
-    color: #767676;
-    border: none;
     margin: 5px;
-}
+} 
+
 .review{
-    text-align: start;
-    
+    text-align: start;  
 }
 
-#addProduct{
-    margin:5px
+.grid-container{
+        align-content: center;
+
+}
+.productDetail{
+    width: 150px;
 }

@@ -1,4 +1,5 @@
 import { Placeholder } from "react-bootstrap";
+
 export const LoadingComponent = () => (
   <>
     <h3>Loading..  </h3>

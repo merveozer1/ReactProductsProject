@@ -20,6 +20,7 @@ function InitialScreen(props) {
 
   useEffect(() => {
     setAppState({ ...appState, availableProducts: [...data] })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetched])
 
 
@@ -114,7 +115,6 @@ function InitialScreen(props) {
                       </Link>
                     </div>
                   )).slice(0, 10)}
-
                 </ul>
               </div>
             </div>
@@ -157,12 +157,13 @@ function InitialScreen(props) {
                     <div className='row'>
                       <div className='col'>
                         <Button id="addProduct"
-                          variant={appState.selectedItems.length === 0 ? "secondary" : "primary"}
+                          variant={appState.selectedItems.length === 0 ? "#EEEEEE" : "primary"}
                           onClick={() => addProducts(index)}
                         >
                           Add {appState.selectedItems.length === 0 ? "" : appState.selectedItems.length} Products
                         </Button>
-                        <Button id="removeProduct" variant="secondary"
+                        <Button id="removeProduct"
+                          variant={container.unfavItems.length === 0 ? "#EEEEEE" : "primary"}
                           onClick={() => removeProducts(index)}
                         >
                           Remove {container.unfavItems.length === 0 ? "" : container.unfavItems.length} Products
@@ -170,7 +171,7 @@ function InitialScreen(props) {
                       </div>
                       <div className='col-sm-4'>
                         <Button id="removeCategory"
-                          variant="secondary"
+                          variant={appState.containers.length !== 1 ? "primary" : "#EEEEEE"}
                           onClick={() => removeCategory(index)}
                         >
                           Remove Category
@@ -180,13 +181,12 @@ function InitialScreen(props) {
                   </div>
                 </div>
               </>
-            )}
-          <Button
-            id="BtnAdd"
+            )} 
+          <Button 
+            style={{ width: "670px", marginTop: "10px" }}
+            id="addCategory"
             variant="primary"
             type='submit'
-            size="lg"
-            style={{ width: "670px", marginTop: "10px" }}
             onClick={() => addCategory()}
           >
             Add Category
@@ -203,6 +203,7 @@ function InitialScreen(props) {
               <div className="card-text" >
                 <h5>
                   <b>Available Products:</b>
+                  {appState.selectedItems.availableProducts}
                 </h5>
                 <small>Categories: { } </small>
                 <br />
