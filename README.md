@@ -1,3 +1,22 @@
+This project is developed for the task of <b> denebunu.com </b>
+<p>
+ <a className='text-warning' href="https://fakestoreapi.com/">Click</a> to access the API used in the project.
+  <p>
+ <a className='text-warning' href="https://https://github.com/merveozer1/">Click</a> for deployed project.
+  
+  <b>Tools and Technologies:</b>
+  <ul>
+  <li>CSS </li>
+  <li>JavaScript</li>
+  <li>React</li>
+  <li>React-Bootstrap </li>
+  </ul>
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
