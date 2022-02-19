@@ -1,23 +1,167 @@
+#root {
+    padding: 10px 30px;
+    margin: 10px;
+}
+
+#available-products{
+    text-align: start;
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+}
+
+.titles{
+    text-align: start;
+    padding: 3px;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
+
 #removeProduct {
     margin:5px;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
 } 
 
 #addProduct{
     margin:5px; 
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
 }
 
 #removeCategory{
-    margin: 5px;
+    margin:5px; 
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
 } 
+
+.reviewStyle{
+    padding-left: 20px;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
 
 .review{
     text-align: start;  
+    margin-top: 20px;
+    
+}
+.selectAnyProduct{
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.reviewTitle{
+    color: #074EE8;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 3px;
+    font-family: Chalkboard;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.categoryFollow{
+    padding-top: 10px;
+}
+
+.cardStyle{
+    margin-bottom: 20px;
+}
+
+.addCategoryButton {
+    margin-top:10px;
+    background-color: #074EE8;
+    border-radius: 4px;
+    height: 48px;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
 }
 
 .grid-container{
-        align-content: center;
+    align-content: center;
+}
+
+.productDetail{
+    width: 120px;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.container-wrapper{
+    padding: 5px;
 
 }
-.productDetail{
-    width: 150px;
+
+.productLink{
+    text-decoration: none;
+    color: black;
+    padding: 3px;
+    text-align: start;
+    font-family: Chalkboard;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
 }
+.outStock{
+    padding: 40px;
+    margin: 40px;
+}
+
+.availableProducts{
+    padding: 20px;
+}
+
+.icon{
+    margin: 10px;
+    padding: 20px;
+}
+
+.categoryCard{
+    padding: 25px;
+    margin: 5px;
+}
+
+.addCategoryButton {
+    margin-top:10px;
+    background-color: #074EE8;
+    border-radius: 4px;
+    height: 48px;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+}
+

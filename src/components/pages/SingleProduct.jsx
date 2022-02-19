@@ -25,7 +25,7 @@ const SingleProduct = (props) => {
 
   return (
     <>
-    <small className="text-danger">Product Detail</small>
+    <small className="productDetail">Product Detail</small>
       <div className="grid-container">
         <h4>{data?.title}</h4>
         <img src={data?.image} className="productDetail" alt="product-detail"/>
