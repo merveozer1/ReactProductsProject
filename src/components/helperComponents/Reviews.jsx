@@ -11,13 +11,12 @@ export const Reviews = ({appState}) => {
             <FiSave /> Review
           </h5>
           <div className="card-text" >
-            
             <small>
               {`Available Products: ${appState.availableProducts.length}`}
             </small>
-            <br />
+            <br/>
             <small>{`Categories: ${appState.containers.length} `}</small>
-            <br />
+            <br/>
             {appState.containers.map(container => (
               <div className='categoryFollow' key={container.name}>
                 <small>
@@ -28,7 +27,7 @@ export const Reviews = ({appState}) => {
             ))}
           </div>
         </div>
-        </div>
+       </div>
       </div>
     </div>
   )

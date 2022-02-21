@@ -2,7 +2,7 @@ import React from 'react';
 import { BiCube } from 'react-icons/bi';
 import { Link } from "react-router-dom";
 import { availableProductsText } from "../../constants";
-import "../styles/buttons.css"
+import "../styles/buttons.css";
 
 export const AvailableProducts = ({ appState, onSelectedItemChange }) => {
 	return (
