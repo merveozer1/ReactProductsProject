@@ -25,7 +25,7 @@ export const AvailableProducts = ({ appState, onSelectedItemChange }) => {
               </div>
             )).slice(0, 10)}
           </ul> :
-            <b className='outStock'>There are no products available. Thanks for your order!</b>
+            <b className='outStock'>There are no products available!</b>
           }
         </div>
       </div>
